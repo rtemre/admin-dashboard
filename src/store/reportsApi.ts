@@ -56,7 +56,7 @@ export const reportsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getReports: builder.query<BookApiResponse, void>({
       query: () => ({
-        url: "books",
+        url: "books?_quantity=50",
       }),
       providesTags: ["Report"],
     }),

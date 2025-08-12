@@ -1,4 +1,5 @@
 import { MoreHorizontal, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,11 +23,90 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { SearchInput } from "@/components/ui/search-input";
+import { TableSkeleton } from "@/components/ui/table-skeleton";
 import { usersData } from "@/constant/mockdata";
 import { useGetUsersQuery } from "@/store/usersApi";
 
 export function UsersPage() {
-  const { data } = useGetUsersQuery();
+  const { data, isLoading } = useGetUsersQuery();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter users based on search query
+  const filteredUsers =
+    data?.data?.filter(
+      (user) =>
+        user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    ) || [];
+
+  const totalItems = filteredUsers.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = filteredUsers.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (pageSize: number) => {
+    setItemsPerPage(pageSize);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+
+  // Reset to first page when search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        {/* Page Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+            <p className="text-gray-600 mt-2">Manage your application users</p>
+          </div>
+          <Button className="bg-primary hover:bg-primary/90" disabled>
+            <Plus className="w-4 h-4 mr-2" />
+            Add User
+          </Button>
+        </div>
+
+        {/* Loading Skeleton */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>All Users</CardTitle>
+                <CardDescription>
+                  A list of all users in your application including their name,
+                  email, and other details.
+                </CardDescription>
+              </div>
+              <SearchInput
+                placeholder="Search users..."
+                value=""
+                onChange={() => {}}
+                className="w-64"
+                disabled
+              />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <TableSkeleton rows={8} columns={5} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -44,16 +124,28 @@ export function UsersPage() {
       {/* Users Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Users</CardTitle>
-          <CardDescription>
-            A list of all users in your application including their name, email,
-            and other details.
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>All Users</CardTitle>
+              <CardDescription>
+                A list of all users in your application including their name,
+                email, and other details.
+              </CardDescription>
+            </div>
+            <SearchInput
+              placeholder="Search users..."
+              value={searchQuery}
+              onChange={setSearchQuery}
+              className="w-64"
+            />
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>S.No.</TableHead>
+
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Username</TableHead>
@@ -62,11 +154,26 @@ export function UsersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data &&
-                data?.data?.map((user) => (
+              {currentUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="h-24 text-center">
+                    {searchQuery ? (
+                      <div className="text-muted-foreground">
+                        No users found matching "{searchQuery}"
+                      </div>
+                    ) : (
+                      <div className="text-muted-foreground">
+                        No users found
+                      </div>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ) : (
+                currentUsers.map((user) => (
                   <TableRow key={user.id}>
+                    <TableCell>{user.id}</TableCell>
                     <TableCell className="font-medium">
-                      {user.firstname}
+                      {user.firstname} {user.lastname}
                     </TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
@@ -95,9 +202,18 @@ export function UsersPage() {
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+              )}
             </TableBody>
           </Table>
+          <DataTablePagination
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+            className="mt-4"
+          />
         </CardContent>
       </Card>
 

@@ -43,7 +43,7 @@ export interface ResponeFormat {
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<ResponeFormat, void>({
-      query: () => "users",
+      query: () => "users?_quantity=50",
       providesTags: ["User"],
     }),
 
