@@ -23,24 +23,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usersData } from "@/constant/mockdata";
-
-const getStatusBadge = (status: string) => {
-  const baseClasses =
-    "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";
-
-  switch (status) {
-    case "active":
-      return `${baseClasses} bg-green-100 text-green-800`;
-    case "inactive":
-      return `${baseClasses} bg-red-100 text-red-800`;
-    case "pending":
-      return `${baseClasses} bg-yellow-100 text-yellow-800`;
-    default:
-      return `${baseClasses} bg-gray-100 text-gray-800`;
-  }
-};
+import { useGetReportsQuery } from "@/store/reportsApi";
 
 export function ReportsPage() {
+  const { data: resData } = useGetReportsQuery();
+  const { data, total } = resData || {};
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -55,7 +42,7 @@ export function ReportsPage() {
         </Button>
       </div>
 
-      {/* Users Table */}
+      {/* Reports Table */}
       <Card>
         <CardHeader>
           <CardTitle>All Reports</CardTitle>
@@ -67,32 +54,31 @@ export function ReportsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>S.No.</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Author</TableHead>
+                <TableHead>Genre</TableHead>
+                <TableHead>Publisher</TableHead>
+                <TableHead>Created At</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {usersData.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+              {data?.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.id}</TableCell>
+                  <TableCell className="font-medium">{item.title}</TableCell>
+                  <TableCell>{item.author}</TableCell>
                   <TableCell>
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {user.role}
+                      {item.genre}
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={getStatusBadge(user.status)}>
-                      {user.status.charAt(0).toUpperCase() +
-                        user.status.slice(1)}
-                    </span>
+                    <span>{item.publisher}</span>
                   </TableCell>
                   <TableCell>
-                    {new Date(user.createdAt).toLocaleDateString()}
+                    {new Date(item.published).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
@@ -104,9 +90,9 @@ export function ReportsPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>View details</DropdownMenuItem>
-                        <DropdownMenuItem>Edit user</DropdownMenuItem>
+                        <DropdownMenuItem>Edit report</DropdownMenuItem>
                         <DropdownMenuItem className="text-red-600">
-                          Delete user
+                          Delete report
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -125,7 +111,7 @@ export function ReportsPage() {
             <CardTitle className="text-sm font-medium">Total Reports</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{usersData.length}</div>
+            <div className="text-2xl font-bold">{total}</div>
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>

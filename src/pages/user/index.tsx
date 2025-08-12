@@ -23,24 +23,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usersData } from "@/constant/mockdata";
-
-const getStatusBadge = (status: string) => {
-  const baseClasses =
-    "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";
-
-  switch (status) {
-    case "active":
-      return `${baseClasses} bg-green-100 text-green-800`;
-    case "inactive":
-      return `${baseClasses} bg-red-100 text-red-800`;
-    case "pending":
-      return `${baseClasses} bg-yellow-100 text-yellow-800`;
-    default:
-      return `${baseClasses} bg-gray-100 text-gray-800`;
-  }
-};
+import { useGetUsersQuery } from "@/store/usersApi";
 
 export function UsersPage() {
+  const { data } = useGetUsersQuery();
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -61,7 +47,7 @@ export function UsersPage() {
           <CardTitle>All Users</CardTitle>
           <CardDescription>
             A list of all users in your application including their name, email,
-            role, and status.
+            and other details.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -70,50 +56,46 @@ export function UsersPage() {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Created</TableHead>
+                <TableHead>Username</TableHead>
+                <TableHead>Website</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {usersData.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {user.role}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <span className={getStatusBadge(user.status)}>
-                      {user.status.charAt(0).toUpperCase() +
-                        user.status.slice(1)}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View details</DropdownMenuItem>
-                        <DropdownMenuItem>Edit user</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
-                          Delete user
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {data &&
+                data?.data?.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                      {user.firstname}
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {user.username ? user.username : "N/A"}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span>{user.website}</span>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>View details</DropdownMenuItem>
+                          <DropdownMenuItem>Edit user</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">
+                            Delete user
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </CardContent>

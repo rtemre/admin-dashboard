@@ -4,9 +4,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseQuery = fetchBaseQuery({
   baseUrl:
     process.env.NODE_ENV === "production"
-      ? "https://jsonplaceholder.typicode.com/"
-      : "https://jsonplaceholder.typicode.com/",
-  prepareHeaders: (headers, { getState: _getState }) => {
+      ? "https://fakerapi.it/api/v2/"
+      : "https://fakerapi.it/api/v2/",
+  prepareHeaders: (headers) => {
+    // use this as second argument - { getState: _getState }
     // You can add auth headers here if needed
     // const token = (getState() as RootState).auth.token;
     // if (token) {
