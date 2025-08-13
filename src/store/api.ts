@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 // Define the base query with fetch
 const baseQuery = fetchBaseQuery({
-  baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://fakerapi.it/api/v2/"
-      : "https://fakerapi.it/api/v2/",
+  baseUrl,
   prepareHeaders: (headers) => {
     // use this as second argument - { getState: _getState }
     // You can add auth headers here if needed
