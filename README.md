@@ -19,7 +19,7 @@ A modern admin dashboard built with React, TypeScript, Vite, and Radix UI.
 1. **Clone the repository:**
 
    ```sh
-   git clone <your-repo-url>
+   git clone https://github.com/rtemre/admin-dashboard.git
    cd admin-dashboard
    ```
 
@@ -44,6 +44,6 @@ A modern admin dashboard built with React, TypeScript, Vite, and Radix UI.
 
 ## Live Demo
 
-[https://your-demo-link.com](https://your-demo-link.com) <!-- Replace with your actual deployed URL -->
+[https://admin-dashboard-raman-projects.vercel.app/](https://admin-dashboard-raman-projects.vercel.app/)
 
 ---
