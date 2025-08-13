@@ -8,7 +8,7 @@ export default function AppLayout() {
     <SidebarProvider>
       {/* Sidebar */}
       <AppSidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-visible">
         {/* Header */}
         <Header />
         {/* Main content */}
