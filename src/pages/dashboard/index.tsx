@@ -14,8 +14,8 @@ export function OverviewPage() {
     <div className="space-y-6">
       {/* Page Title */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-2">
+        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground mt-2">
           Welcome to your admin dashboard overview
         </p>
       </div>
@@ -25,7 +25,7 @@ export function OverviewPage() {
         {dashboardStats.map((stat) => (
           <Card key={stat.id}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
               {stat.changeType === "positive" ? (
@@ -35,7 +35,7 @@ export function OverviewPage() {
               ) : null}
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="text-2xl font-bold text-foreground">
                 {stat.value}
               </div>
               <p
@@ -44,7 +44,7 @@ export function OverviewPage() {
                     ? "text-green-600"
                     : stat.changeType === "negative"
                     ? "text-red-600"
-                    : "text-gray-600"
+                    : "text-muted-foreground"
                 }`}
               >
                 {stat.change} from last month
@@ -67,24 +67,24 @@ export function OverviewPage() {
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-sm text-gray-600">New user registered</p>
-                <span className="text-xs text-gray-400 ml-auto">
+                <p className="text-sm text-muted-foreground">New user registered</p>
+                <span className="text-xs text-muted-foreground ml-auto">
                   2 hours ago
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Payment processed successfully
                 </p>
-                <span className="text-xs text-gray-400 ml-auto">
+                <span className="text-xs text-muted-foreground ml-auto">
                   4 hours ago
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <p className="text-sm text-gray-600">System backup completed</p>
-                <span className="text-xs text-gray-400 ml-auto">
+                <p className="text-sm text-muted-foreground">System backup completed</p>
+                <span className="text-xs text-muted-foreground ml-auto">
                   6 hours ago
                 </span>
               </div>
@@ -99,21 +99,21 @@ export function OverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
                 <div className="font-medium text-sm">Add New User</div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-muted-foreground">
                   Create a new user account
                 </div>
               </button>
-              <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
                 <div className="font-medium text-sm">Generate Report</div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-muted-foreground">
                   Create monthly analytics report
                 </div>
               </button>
-              <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
                 <div className="font-medium text-sm">System Settings</div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-muted-foreground">
                   Configure application settings
                 </div>
               </button>

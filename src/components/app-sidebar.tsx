@@ -70,7 +70,7 @@ export function AppSidebar() {
               <span>Admin Dashboard</span>
             </h1>
           </div>
-          <SidebarTrigger className="p-2 rounded-lg hover:bg-gray-100 transition-colors" />
+          <SidebarTrigger className="p-2 rounded-lg hover:bg-accent transition-colors" />
         </div> */}
         {/* <div className="flex justify-end">
           <SidebarTrigger />

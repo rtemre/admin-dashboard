@@ -1,5 +1,5 @@
 import { useLocation } from "react-router";
-import { BellIcon, LogOut, User } from "lucide-react";
+import { BellIcon, LogOut, User, Sun, Moon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,6 +21,8 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import React from "react";
+
 const routeNames: Record<string, string> = {
   "/": "Dashboard",
   "/users": "Users",
@@ -41,8 +43,36 @@ export function Header() {
       : []),
   ];
 
+  const [isDark, setIsDark] = React.useState(() =>
+    typeof window !== 'undefined' ? document.documentElement.classList.contains('dark') : false
+  );
+
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      setIsDark(false);
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.classList.add('dark');
+      setIsDark(true);
+      localStorage.setItem('theme', 'dark');
+    }
+  };
+
+  React.useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
+    } else if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      setIsDark(false);
+    }
+  }, []);
+
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-background shadow-sm border-b border-border">
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-4">
           <SidebarTrigger
@@ -71,8 +101,15 @@ export function Header() {
           </Breadcrumb>
         </div>
 
-        {/* User Dropdown */}
+        {/* Theme Toggle + User Dropdown */}
         <div className="flex items-center space-x-4">
+          <button
+            aria-label="Toggle theme"
+            onClick={toggleTheme}
+            className="rounded-full p-2 hover:bg-accent transition-colors"
+          >
+            {isDark ? <Sun className="size-5 text-yellow-500" /> : <Moon className="size-5 text-foreground" />}
+          </button>
           <BellIcon className="size-4" />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

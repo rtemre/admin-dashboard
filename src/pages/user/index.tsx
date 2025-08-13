@@ -70,8 +70,8 @@ export function UsersPage() {
         {/* Page Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-            <p className="text-gray-600 mt-2">Manage your application users</p>
+            <h1 className="text-3xl font-bold text-foreground">Users</h1>
+            <p className="text-muted-foreground mt-2">Manage your application users</p>
           </div>
           <Button className="bg-primary hover:bg-primary/90" disabled>
             <Plus className="w-4 h-4 mr-2" />
@@ -112,8 +112,8 @@ export function UsersPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-          <p className="text-gray-600 mt-2">Manage your application users</p>
+          <h1 className="text-3xl font-bold text-foreground">Users</h1>
+          <p className="text-muted-foreground mt-2">Manage your application users</p>
         </div>
         <Button className="bg-primary hover:bg-primary/90">
           <Plus className="w-4 h-4 mr-2" />
