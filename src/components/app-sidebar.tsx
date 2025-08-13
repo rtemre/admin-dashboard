@@ -5,11 +5,9 @@ import {
   LayoutDashboard,
   NotepadText,
   Settings,
-  //   UserCircle,
   Users,
 } from "lucide-react";
 
-// import logoSvg from "@/assets/logo.svg";
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +17,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  // SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 // Menu items.
@@ -61,20 +58,6 @@ export function AppSidebar() {
             <span className="truncate font-semibold">Admin Dashboard</span>
           </div>
         </SidebarMenuButton>
-        {/* <LayoutDashboard className="h-6 w-6 mr-2" /> 
-        <h2 className="text-lg font-semibold">Admin Dashboard</h2> */}
-        {/* <div className="flex items-center justify-between p-4 border-b">
-          <div className="flex items-center space-x-2 overflow-hidden">
-            <img src={logoSvg} alt="Admin Dashboard" className="h-8" />
-            <h1 className="text-lg font-semibold whitespace-nowrap">
-              <span>Admin Dashboard</span>
-            </h1>
-          </div>
-          <SidebarTrigger className="p-2 rounded-lg hover:bg-accent transition-colors" />
-        </div> */}
-        {/* <div className="flex justify-end">
-          <SidebarTrigger />
-        </div> */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

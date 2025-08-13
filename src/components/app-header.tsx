@@ -44,29 +44,31 @@ export function Header() {
   ];
 
   const [isDark, setIsDark] = React.useState(() =>
-    typeof window !== 'undefined' ? document.documentElement.classList.contains('dark') : false
+    typeof window !== "undefined"
+      ? document.documentElement.classList.contains("dark")
+      : false
   );
 
   const toggleTheme = () => {
     const html = document.documentElement;
-    if (html.classList.contains('dark')) {
-      html.classList.remove('dark');
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
       setIsDark(false);
-      localStorage.setItem('theme', 'light');
+      localStorage.setItem("theme", "light");
     } else {
-      html.classList.add('dark');
+      html.classList.add("dark");
       setIsDark(true);
-      localStorage.setItem('theme', 'dark');
+      localStorage.setItem("theme", "dark");
     }
   };
 
   React.useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
-      document.documentElement.classList.add('dark');
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
       setIsDark(true);
-    } else if (saved === 'light') {
-      document.documentElement.classList.remove('dark');
+    } else if (saved === "light") {
+      document.documentElement.classList.remove("dark");
       setIsDark(false);
     }
   }, []);
@@ -108,7 +110,11 @@ export function Header() {
             onClick={toggleTheme}
             className="rounded-full p-2 hover:bg-accent transition-colors"
           >
-            {isDark ? <Sun className="size-5 text-yellow-500" /> : <Moon className="size-5 text-foreground" />}
+            {isDark ? (
+              <Sun className="size-5 text-yellow-500" />
+            ) : (
+              <Moon className="size-5 text-foreground" />
+            )}
           </button>
           <BellIcon className="size-4" />
           <DropdownMenu>
@@ -124,9 +130,6 @@ export function Header() {
                       .join("") || "U"}
                   </AvatarFallback>
                 </Avatar>
-                {/* <span className="text-sm font-medium text-gray-700">
-                {user?.name || "User"}
-              </span> */}
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">

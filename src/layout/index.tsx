@@ -9,7 +9,6 @@ export default function AppLayout() {
       {/* Sidebar */}
       <AppSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* <SidebarTrigger /> */}
         {/* Header */}
         <Header />
         {/* Main content */}
@@ -17,7 +16,7 @@ export default function AppLayout() {
           {/* {children} */}
           <div className="container mx-auto px-6 py-8">
             <Outlet />
-          </div>{" "}
+          </div>
         </main>
       </div>
     </SidebarProvider>
