@@ -4,11 +4,14 @@ import { RouterProvider } from "react-router";
 import { router } from "./router";
 import { StoreProvider } from "./store/StoreProvider";
 import "./index.css";
+import { ErrorBoundary } from "@/components/shared/error-boundary";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <StoreProvider>
-      <RouterProvider router={router} />
-    </StoreProvider>
+    <ErrorBoundary>
+      <StoreProvider>
+        <RouterProvider router={router} />
+      </StoreProvider>
+    </ErrorBoundary>
   </StrictMode>
 );

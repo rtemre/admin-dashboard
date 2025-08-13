@@ -28,9 +28,17 @@ import { SearchInput } from "@/components/ui/search-input";
 import { TableSkeleton } from "@/components/ui/table-skeleton";
 import { usersData } from "@/constant/mockdata";
 import { useGetReportsQuery } from "@/store/reportsApi";
+import { ErrorState } from "@/components/shared/error-state";
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export function ReportsPage() {
-  const { data: resData, isLoading } = useGetReportsQuery();
+  const {
+    data: resData,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetReportsQuery();
   const { data, total } = resData || {};
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -64,6 +72,34 @@ export function ReportsPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
+
+  const getErrorMessage = (err: unknown) => {
+    const e = err as FetchBaseQueryError & { status?: number; data?: unknown };
+    if (!e) return "Failed to load data.";
+    if (typeof e.status === "number") {
+      const detail = (e as any).data?.message || (e as any).error;
+      return `Request failed (${e.status})${detail ? `: ${detail}` : ""}`;
+    }
+    return (e as any)?.error || "Failed to load data.";
+  };
+
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Reports</h1>
+            <p className="text-muted-foreground mt-2">Manage your Reports</p>
+          </div>
+        </div>
+        <ErrorState
+          title="Failed to load reports"
+          message={getErrorMessage(error)}
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

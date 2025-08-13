@@ -28,9 +28,11 @@ import { SearchInput } from "@/components/ui/search-input";
 import { TableSkeleton } from "@/components/ui/table-skeleton";
 import { usersData } from "@/constant/mockdata";
 import { useGetUsersQuery } from "@/store/usersApi";
+import { ErrorState } from "@/components/shared/error-state";
+import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export function UsersPage() {
-  const { data, isLoading } = useGetUsersQuery();
+  const { data, isLoading, isError, error, refetch } = useGetUsersQuery();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,6 +66,36 @@ export function UsersPage() {
     setCurrentPage(1);
   }, [searchQuery]);
 
+  const getErrorMessage = (err: unknown) => {
+    const e = err as FetchBaseQueryError & { status?: number; data?: any };
+    if (!e) return "Failed to load data.";
+    if (typeof e.status === "number") {
+      const detail = (e as any).data?.message || (e as any).error;
+      return `Request failed (${e.status})${detail ? `: ${detail}` : ""}`;
+    }
+    return (e as any)?.error || "Failed to load data.";
+  };
+
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Users</h1>
+            <p className="text-muted-foreground mt-2">
+              Manage your application users
+            </p>
+          </div>
+        </div>
+        <ErrorState
+          title="Failed to load users"
+          message={getErrorMessage(error)}
+          onRetry={refetch}
+        />
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -71,7 +103,9 @@ export function UsersPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Users</h1>
-            <p className="text-muted-foreground mt-2">Manage your application users</p>
+            <p className="text-muted-foreground mt-2">
+              Manage your application users
+            </p>
           </div>
           <Button className="bg-primary hover:bg-primary/90" disabled>
             <Plus className="w-4 h-4 mr-2" />
@@ -113,7 +147,9 @@ export function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Users</h1>
-          <p className="text-muted-foreground mt-2">Manage your application users</p>
+          <p className="text-muted-foreground mt-2">
+            Manage your application users
+          </p>
         </div>
         <Button className="bg-primary hover:bg-primary/90">
           <Plus className="w-4 h-4 mr-2" />

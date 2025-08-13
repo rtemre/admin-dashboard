@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import AppLayout from "@/layout";
 import { Suspense, lazy } from "react";
+import ErrorFallback from "@/components/shared/error-fallback";
+import NetworkStatus from "@/components/shared/network-status";
 
 const OverviewPage = lazy(() => import("@/pages/dashboard"));
 const UsersPage = lazy(() => import("@/pages/user"));
@@ -11,7 +13,12 @@ const ReportsPage = lazy(() => import("@/pages/report"));
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: (
+      <>
+        <NetworkStatus />
+        <AppLayout />
+      </>
+    ),
     children: [
       {
         index: true,
@@ -20,6 +27,7 @@ export const router = createBrowserRouter([
             <OverviewPage />
           </Suspense>
         ),
+        errorElement: <ErrorFallback />,
       },
       {
         path: "users",
@@ -28,6 +36,7 @@ export const router = createBrowserRouter([
             <UsersPage />
           </Suspense>
         ),
+        errorElement: <ErrorFallback />,
       },
       {
         path: "reports",
@@ -36,6 +45,7 @@ export const router = createBrowserRouter([
             <ReportsPage />
           </Suspense>
         ),
+        errorElement: <ErrorFallback />,
       },
       {
         path: "settings",
@@ -45,6 +55,7 @@ export const router = createBrowserRouter([
             <p>Coming Soon...</p>
           </div>
         ),
+        errorElement: <ErrorFallback />,
       },
     ],
   },
