@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import AppLayout from "@/layout";
-import { OverviewPage } from "@/pages/dashboard";
-import { UsersPage } from "@/pages/user";
-import { ReportsPage } from "@/pages/report";
+import { Suspense, lazy } from "react";
+
+const OverviewPage = lazy(() => import("@/pages/dashboard"));
+const UsersPage = lazy(() => import("@/pages/user"));
+const ReportsPage = lazy(() => import("@/pages/report"));
 
 // Define the router with all routes
 // This includes the login route and the main dashboard routes
@@ -13,15 +15,27 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <OverviewPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <OverviewPage />
+          </Suspense>
+        ),
       },
       {
         path: "users",
-        element: <UsersPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <UsersPage />
+          </Suspense>
+        ),
       },
       {
         path: "reports",
-        element: <ReportsPage />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <ReportsPage />
+          </Suspense>
+        ),
       },
       {
         path: "settings",

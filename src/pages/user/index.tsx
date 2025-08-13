@@ -224,7 +224,7 @@ export function UsersPage() {
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{usersData.length}</div>
+            <div className="text-2xl font-bold">{data?.total}</div>
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>
@@ -256,3 +256,4 @@ export function UsersPage() {
     </div>
   );
 }
+export default UsersPage;
