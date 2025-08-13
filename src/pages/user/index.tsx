@@ -30,6 +30,7 @@ import { usersData } from "@/constant/mockdata";
 import { useGetUsersQuery } from "@/store/usersApi";
 import { ErrorState } from "@/components/shared/error-state";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { PageHeader } from '@/components/shared/page-header';
 
 export function UsersPage() {
   const { data, isLoading, isError, error, refetch } = useGetUsersQuery();
@@ -79,14 +80,10 @@ export function UsersPage() {
   if (isError) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Users</h1>
-            <p className="text-muted-foreground mt-2">
-              Manage your application users
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          title="Users"
+          subtitle="Manage your application users"
+        />
         <ErrorState
           title="Failed to load users"
           message={getErrorMessage(error)}
@@ -100,18 +97,16 @@ export function UsersPage() {
     return (
       <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Users</h1>
-            <p className="text-muted-foreground mt-2">
-              Manage your application users
-            </p>
-          </div>
-          <Button className="bg-primary hover:bg-primary/90" disabled>
-            <Plus className="w-4 h-4 mr-2" />
-            Add User
-          </Button>
-        </div>
+        <PageHeader
+          title="Users"
+          subtitle="Manage your application users"
+          actions={
+            <Button className="bg-primary hover:bg-primary/90" disabled>
+              <Plus className="w-4 h-4 mr-2" />
+              Add User
+            </Button>
+          }
+        />
 
         {/* Loading Skeleton */}
         <Card>
@@ -144,18 +139,16 @@ export function UsersPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Users</h1>
-          <p className="text-muted-foreground mt-2">
-            Manage your application users
-          </p>
-        </div>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          Add User
-        </Button>
-      </div>
+      <PageHeader
+        title="Users"
+        subtitle="Manage your application users"
+        actions={
+          <Button className="bg-primary hover:bg-primary/90">
+            <Plus className="w-4 h-4 mr-2" />
+            Add User
+          </Button>
+        }
+      />
 
       {/* Users Table */}
       <Card>

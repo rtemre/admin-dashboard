@@ -30,6 +30,7 @@ import { usersData } from "@/constant/mockdata";
 import { useGetReportsQuery } from "@/store/reportsApi";
 import { ErrorState } from "@/components/shared/error-state";
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { PageHeader } from '@/components/shared/page-header';
 
 export function ReportsPage() {
   const {
@@ -86,12 +87,10 @@ export function ReportsPage() {
   if (isError) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Reports</h1>
-            <p className="text-muted-foreground mt-2">Manage your Reports</p>
-          </div>
-        </div>
+        <PageHeader
+          title="Reports"
+          subtitle="Manage your Reports"
+        />
         <ErrorState
           title="Failed to load reports"
           message={getErrorMessage(error)}
@@ -105,16 +104,16 @@ export function ReportsPage() {
     return (
       <div className="space-y-6">
         {/* Page Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Reports</h1>
-            <p className="text-muted-foreground mt-2">Manage your Reports</p>
-          </div>
-          <Button className="bg-primary hover:bg-primary/90" disabled>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Report
-          </Button>
-        </div>
+        <PageHeader
+          title="Reports"
+          subtitle="Manage your Reports"
+          actions={
+            <Button className="bg-primary hover:bg-primary/90" disabled>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Report
+            </Button>
+          }
+        />
 
         {/* Loading Skeleton */}
         <Card>
@@ -146,16 +145,16 @@ export function ReportsPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Reports</h1>
-          <p className="text-muted-foreground mt-2">Manage your Reports</p>
-        </div>
-        <Button className="bg-primary hover:bg-primary/90">
-          <Plus className="w-4 h-4 mr-2" />
-          Add Report
-        </Button>
-      </div>
+      <PageHeader
+        title="Reports"
+        subtitle="Manage your Reports"
+        actions={
+          <Button className="bg-primary hover:bg-primary/90">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Report
+          </Button>
+        }
+      />
 
       {/* Reports Table */}
       <Card>

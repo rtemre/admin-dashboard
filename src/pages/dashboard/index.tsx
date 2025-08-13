@@ -1,61 +1,68 @@
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { memo } from 'react';
+import { UserPlus, FileText, Settings } from 'lucide-react';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { dashboardStats } from "@/constant/mockdata";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PageHeader } from '@/components/shared/page-header';
+import { StatsCard } from '@/components/shared/stats-card';
+import { ActivityItem } from '@/components/shared/activity-item';
+import { QuickActionButton } from '@/components/shared/quick-action-button';
+import { dashboardStats } from '@/constant/mockdata';
 
-export function OverviewPage() {
+/**
+ * Dashboard overview page that displays key metrics, recent activity,
+ * and quick actions for administrators
+ * 
+ * @returns JSX element representing the dashboard overview page
+ */
+export const OverviewPage = memo(function OverviewPage() {
+  // Mock activity data - in a real app, this would come from an API
+  const recentActivities = [
+    { type: 'user' as const, message: 'New user registered', timestamp: '2 hours ago' },
+    { type: 'report' as const, message: 'Payment processed successfully', timestamp: '4 hours ago' },
+    { type: 'system' as const, message: 'System backup completed', timestamp: '6 hours ago' },
+  ];
+
+  // Quick action handlers
+  const handleAddUser = () => {
+    // TODO: Implement add user functionality
+    console.log('Add user clicked');
+  };
+
+  const handleGenerateReport = () => {
+    // TODO: Implement generate report functionality
+    console.log('Generate report clicked');
+  };
+
+  const handleSystemSettings = () => {
+    // TODO: Implement system settings functionality
+    console.log('System settings clicked');
+  };
+
   return (
     <div className="space-y-6">
-      {/* Page Title */}
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Welcome to your admin dashboard overview
-        </p>
-      </div>
+      {/* Page Header */}
+      <PageHeader
+        title="Dashboard"
+        subtitle="Welcome to your admin dashboard overview"
+      />
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {dashboardStats.map((stat) => (
-          <Card key={stat.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              {stat.changeType === "positive" ? (
-                <TrendingUp className="h-4 w-4 text-green-600" />
-              ) : stat.changeType === "negative" ? (
-                <TrendingDown className="h-4 w-4 text-red-600" />
-              ) : null}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-foreground">
-                {stat.value}
-              </div>
-              <p
-                className={`text-xs flex items-center mt-1 ${
-                  stat.changeType === "positive"
-                    ? "text-green-600"
-                    : stat.changeType === "negative"
-                    ? "text-red-600"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {stat.change} from last month
-              </p>
-            </CardContent>
-          </Card>
+          <StatsCard
+            key={stat.id}
+            id={stat.id}
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            changeType={stat.changeType}
+          />
         ))}
       </div>
 
       {/* Additional Content */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Activity Card */}
         <Card>
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
@@ -65,33 +72,19 @@ export function OverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-sm text-muted-foreground">New user registered</p>
-                <span className="text-xs text-muted-foreground ml-auto">
-                  2 hours ago
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <p className="text-sm text-muted-foreground">
-                  Payment processed successfully
-                </p>
-                <span className="text-xs text-muted-foreground ml-auto">
-                  4 hours ago
-                </span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <p className="text-sm text-muted-foreground">System backup completed</p>
-                <span className="text-xs text-muted-foreground ml-auto">
-                  6 hours ago
-                </span>
-              </div>
+              {recentActivities.map((activity, index) => (
+                <ActivityItem
+                  key={index}
+                  type={activity.type}
+                  message={activity.message}
+                  timestamp={activity.timestamp}
+                />
+              ))}
             </div>
           </CardContent>
         </Card>
 
+        {/* Quick Actions Card */}
         <Card>
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
@@ -99,29 +92,30 @@ export function OverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
-                <div className="font-medium text-sm">Add New User</div>
-                <div className="text-xs text-muted-foreground">
-                  Create a new user account
-                </div>
-              </button>
-              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
-                <div className="font-medium text-sm">Generate Report</div>
-                <div className="text-xs text-muted-foreground">
-                  Create monthly analytics report
-                </div>
-              </button>
-              <button className="w-full text-left p-3 rounded-lg border border-border hover:bg-accent transition-colors">
-                <div className="font-medium text-sm">System Settings</div>
-                <div className="text-xs text-muted-foreground">
-                  Configure application settings
-                </div>
-              </button>
+              <QuickActionButton
+                title="Add New User"
+                description="Create a new user account"
+                icon={<UserPlus className="h-4 w-4" />}
+                onClick={handleAddUser}
+              />
+              <QuickActionButton
+                title="Generate Report"
+                description="Create monthly analytics report"
+                icon={<FileText className="h-4 w-4" />}
+                onClick={handleGenerateReport}
+              />
+              <QuickActionButton
+                title="System Settings"
+                description="Configure application settings"
+                icon={<Settings className="h-4 w-4" />}
+                onClick={handleSystemSettings}
+              />
             </div>
           </CardContent>
         </Card>
       </div>
     </div>
   );
-}
+});
+
 export default OverviewPage;
